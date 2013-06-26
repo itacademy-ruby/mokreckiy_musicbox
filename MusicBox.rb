@@ -45,7 +45,7 @@ class Musicbox
         puts "Not enough balance. Please, pay for music."
       end
     else
-      puts 'Turn on MusicBox'
+      puts "Turn on #{self}"
     end
   end
 
@@ -54,7 +54,7 @@ class Musicbox
       @songs << song
       puts "Song #{@songs[-1]} was added."
     else
-      puts 'Turn on MusicBox'
+      puts "Turn on #{self}"
     end  
   end
 
@@ -62,25 +62,25 @@ class Musicbox
     if @turned_on
       @balance += income_money
     else
-      puts 'Turn on MusicBox'
+      puts "Turn on #{self}"
     end
   end
 
   def turn_on
   if @turned_on == false
     @turned_on = true
-    puts "Box was turned on"
+    puts "#{self} was turned on"
   else
-  	puts 'Already on'
+    puts 'Already on'
   end
   end
 
   def turn_off
-  	if @turned_on == true
+    if @turned_on == true
     @turned_on = false
-    puts "Box was turned off"
+    puts "#{self} was turned off"
     else
-  	puts 'Already off'
+    puts 'Already off'
     end
   end
 
@@ -88,25 +88,61 @@ class Musicbox
     if @turned_on
       puts @songs.include?(song_name) ? "#{song_name} is in the list" : 'There\'s no such song.'
     else
-      puts 'Turn on MusicBox'
+      puts "Turn on #{self}"
     end
   end
 
   def status
-    puts @turned_on ? 'Turned on' : 'Turned off'
+    puts @turned_on ? "Turned on #{self}" : "Turned off #{self}"
     puts "Playing: #{@current_song}"
   end
 end
 
-box = Musicbox.new 10
-box.turn_on
-box.status
-box.turn_on
-box.turn_off
-box.status
-puts box.song_cost
-box.turn_on
-box.pay 20
-box.load_song 'Yesterday by Beetles'
-3.times { box.play_music }
-box.search 'Yesterday by Beetles'
+class CDBox < Musicbox
+  def load_song (song)
+    puts "Insert CD disk"
+    super
+  end
+end
+
+class CassetteBox < Musicbox
+  def load_song (song)
+    puts "Insert Cassette tape"
+    super
+  end
+end
+
+musicbox = Musicbox.new 10
+musicbox.turn_on
+musicbox.status
+musicbox.turn_on
+musicbox.turn_off
+musicbox.status
+puts musicbox.song_cost
+musicbox.turn_on
+musicbox.pay 20
+musicbox.load_song 'Yesterday by Beetles'
+3.times { musicbox.play_music }
+musicbox.search 'Yesterday by Beetles'
+
+
+cdbox = CDBox.new 20
+cdbox.status
+cdbox.turn_on
+puts cdbox.song_cost
+cdbox.pay 20
+cdbox.load_song 'Yesterday by Beetles'
+3.times { cdbox.play_music }
+cdbox.search 'Yesterday by Beetles'
+cdbox.turn_off
+  
+
+cassettebox = CassetteBox.new 5
+cassettebox.status
+cassettebox.turn_on
+puts cassettebox.song_cost
+cassettebox.pay 20
+cassettebox.load_song 'Yesterday by Beetles'
+3.times { cassettebox.play_music }
+cassettebox.search 'Yesterday by Beetles'
+cassettebox.turn_off
